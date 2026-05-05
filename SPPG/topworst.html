@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daftar Dapur SPPG · KC Medan Kota</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ══════════════════════════════════════════════════
+       DESIGN SYSTEM
+    ══════════════════════════════════════════════════ */
+    :root {
+      --sage-50:#f4f9f4;--sage-100:#e4f2e4;--sage-200:#c5e3c5;
+      --sage-300:#97ca97;--sage-400:#6aad6a;--sage-500:#4a9050;
+      --sage-600:#3a7540;--sage-700:#2d5c32;--sage-800:#234628;--sage-900:#1a3320;
+      --peach-50:#fff7f0;--peach-100:#feeadb;--peach-200:#fdd1b3;
+      --peach-300:#fbb07e;--peach-400:#f88a4a;--peach-500:#f56a22;--peach-600:#d8521a;
+      --sky-50:#f0f8ff;--sky-100:#e0f1fe;--sky-200:#bae3fd;
+      --sky-300:#7ccffa;--sky-400:#36b3f4;--sky-500:#0e97e0;
+      --sky-600:#0278be;--sky-700:#035e97;--sky-800:#074f7d;
+      --blush-50:#fff1f3;--blush-100:#ffe4e8;--blush-200:#fecdd5;
+      --blush-400:#fb7185;--blush-500:#f43f5e;--blush-600:#e11d48;
+      --lavender-50:#f8f6ff;--lavender-100:#f0ebfe;--lavender-200:#e2d9fd;
+      --lavender-400:#a78bfa;--lavender-600:#7c3aed;
+      --amber-50:#fffbeb;--amber-100:#fef3c7;--amber-400:#fbbf24;--amber-600:#d97706;
+      --base:#faf9f7;--base-2:#f4f2ef;--base-3:#ede9e3;--base-4:#e0dbd3;
+      --surface:#ffffff;--border:#e8e2da;--border-2:#d4cec5;
+      --ink-1:#1c1917;--ink-2:#292524;--ink-3:#57534e;--ink-4:#a8a29e;--ink-5:#d6d3d1;
+      --sh-xs:0 1px 3px rgba(28,25,23,.06);
+      --sh-sm:0 2px 8px rgba(28,25,23,.08);
+      --sh-md:0 6px 24px rgba(28,25,23,.10),0 2px 6px rgba(28,25,23,.06);
+      --sh-lg:0 12px 44px rgba(28,25,23,.12),0 4px 12px rgba(28,25,23,.06);
+      --sh-xl:0 20px 64px rgba(28,25,23,.14);
+      --r-xs:6px;--r-sm:10px;--r-md:14px;--r-lg:20px;--r-xl:28px;--r-full:9999px;
+      /* ALL ARIAL — sama dengan index.html */
+      --font:'Arial',Helvetica,sans-serif;
+      --nav-h:64px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font);background:var(--base);color:var(--ink-1);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+    a{text-decoration:none;color:inherit;}
+
+    /* ── BG CANVAS ── */
+    #bg-canvas{position:fixed;inset:0;z-index:-1;background-size:cover;background-position:center;background-attachment:fixed;transition:opacity .6s;}
+    #bg-overlay{position:fixed;inset:0;z-index:-1;background:rgba(250,249,247,.72);transition:opacity .5s;pointer-events:none;}
+    body:not(.has-bg-image) #bg-canvas{opacity:0;}
+    body:not(.has-bg-image) #bg-overlay{opacity:0;}
+
+    /* ── BG FAB ── */
+    .bg-fab{position:fixed;bottom:24px;right:24px;z-index:500;width:48px;height:48px;border-radius:var(--r-md);background:var(--sage-700);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--sh-md);color:#fff;font-size:1.1rem;transition:all .25s;}
+    .bg-fab:hover{transform:scale(1.08) rotate(-6deg);}
+    .bg-panel{position:fixed;bottom:82px;right:24px;z-index:500;width:288px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--sh-xl);overflow:hidden;transform:translateY(16px) scale(.95);opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.34,1.3,.64,1);}
+    .bg-panel.open{transform:none;opacity:1;pointer-events:all;}
+    .bg-panel-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--sage-800);color:#fff;}
+    .bg-panel-title{font-size:.78rem;font-weight:700;display:flex;align-items:center;gap:8px;font-family:var(--font);}
+    .bg-panel-close{background:rgba(255,255,255,.18);border:none;cursor:pointer;color:#fff;width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.7rem;}
+    .bg-panel-body{padding:14px;}
+    .bg-section-label{font-size:.6rem;font-weight:700;color:var(--ink-4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;font-family:var(--font);}
+    .bg-presets{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px;}
+    .bg-preset-btn{aspect-ratio:1;border-radius:8px;border:2px solid transparent;cursor:pointer;background-size:cover;background-position:center;}
+    .bg-preset-btn:hover{border-color:var(--sage-400);}
+    .bg-preset-btn.active{border-color:var(--sage-600);box-shadow:0 0 0 2px rgba(74,144,80,.25);}
+    .bg-preset-btn.none-btn{background:var(--base-2);display:flex;align-items:center;justify-content:center;font-size:.85rem;border:1.5px dashed var(--border-2);}
+    .bg-upload-btn{width:100%;padding:9px 12px;border-radius:8px;background:var(--sage-50);border:1.5px dashed var(--sage-200);color:var(--sage-700);font-family:var(--font);font-size:.72rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:12px;}
+    .bg-opacity-row{display:flex;align-items:center;gap:8px;}
+    .bg-opacity-label{font-size:.64rem;font-weight:600;color:var(--ink-3);white-space:nowrap;font-family:var(--font);}
+    input[type=range].bg-slider{flex:1;-webkit-appearance:none;height:4px;border-radius:999px;background:var(--base-3);outline:none;cursor:pointer;}
+    input[type=range].bg-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--sage-600);border:2px solid #fff;box-shadow:0 2px 6px rgba(58,117,64,.3);}
+    .bg-opacity-val{font-family:var(--font);font-size:.64rem;font-weight:700;color:var(--sage-600);width:28px;text-align:right;}
+
+    /* ── SPLASH ── */
+    #splash{position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(145deg,#e8f5e9 0%,#fff8f0 35%,#fce4ec 65%,#e3f2fd 100%);overflow:hidden;transition:opacity .8s ease,transform .8s;}
+    #splash.splash-exit{opacity:0;transform:scale(1.04);pointer-events:none;}
+    .splash-blob{position:absolute;border-radius:50%;filter:blur(60px);animation:blobD 6s ease-in-out infinite alternate;}
+    @keyframes blobD{0%{transform:translate(0,0) scale(1);}50%{transform:translate(24px,-16px) scale(1.07);}100%{transform:translate(-16px,24px) scale(.94);}}
+    .splash-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;}
+    .splash-icon{width:80px;height:80px;border-radius:24px;background:var(--surface);border:2px solid var(--sage-200);display:flex;align-items:center;justify-content:center;font-size:2.4rem;box-shadow:var(--sh-md);animation:iconPop .5s cubic-bezier(.34,1.56,.64,1) both;}
+    @keyframes iconPop{0%{transform:scale(0) rotate(-20deg);opacity:0;}100%{transform:scale(1);opacity:1;}}
+    .splash-title{font-size:2rem;font-weight:900;color:var(--ink-1);animation:slideUp .7s .1s both;}
+    .splash-title span{color:var(--sage-600);font-style:italic;}
+    .splash-sub{font-size:.84rem;font-weight:400;font-style:italic;color:var(--ink-3);animation:slideUp .7s .2s both;font-family:var(--font);}
+    @keyframes slideUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+    .splash-bar-wrap{width:200px;height:5px;background:var(--sage-100);border-radius:999px;overflow:hidden;animation:slideUp .7s .3s both;}
+    .splash-bar{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--sage-400),var(--peach-400),var(--sky-400));background-size:200% 100%;animation:loadBar 2.2s ease forwards,shimBar 1.4s linear infinite;}
+    @keyframes loadBar{0%{width:0%;}60%{width:74%;}85%{width:91%;}100%{width:100%;}}
+    @keyframes shimBar{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+    .splash-dots{display:flex;gap:6px;animation:slideUp .7s .4s both;}
+    .sp-dot{width:7px;height:7px;border-radius:50%;animation:dotB 1.2s ease-in-out infinite;}
+    .sp-dot:nth-child(1){background:var(--sage-400);}
+    .sp-dot:nth-child(2){background:var(--peach-400);animation-delay:.15s;}
+    .sp-dot:nth-child(3){background:var(--sky-400);animation-delay:.3s;}
+    @keyframes dotB{0%,80%,100%{transform:scale(1);}40%{transform:scale(1.5);}}
+
+    /* ── REFRESH OVERLAY ── */
+    #refresh-overlay{position:fixed;inset:0;z-index:8000;background:rgba(250,249,247,.9);backdrop-filter:blur(12px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;opacity:0;pointer-events:none;transition:opacity .3s;}
+    #refresh-overlay.active{opacity:1;pointer-events:all;}
+    .refresh-spinner{width:60px;height:60px;border-radius:50%;background:var(--sage-100);border:2.5px solid var(--sage-300);display:flex;align-items:center;justify-content:center;font-size:1.6rem;animation:spinPlate 1.2s ease-in-out infinite;}
+    @keyframes spinPlate{0%{transform:rotate(0) scale(1);}50%{transform:rotate(180deg) scale(1.05);}100%{transform:rotate(360deg) scale(1);}}
+    .refresh-food-orbit{position:absolute;width:140px;height:140px;animation:orbit 3s linear infinite;}
+    @keyframes orbit{from{transform:rotate(0);}to{transform:rotate(360deg);}}
+    .orbit-item{position:absolute;font-size:1rem;animation:orbitCntr 3s linear infinite;}
+    @keyframes orbitCntr{from{transform:rotate(0);}to{transform:rotate(-360deg);}}
+    .refresh-text{font-weight:900;font-size:.9rem;color:var(--ink-2);font-family:var(--font);}
+    .refresh-sub{font-size:.72rem;font-weight:400;font-style:italic;color:var(--ink-4);font-family:var(--font);}
+
+    /* ── AMBIENT ── */
+    #bg-blobs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+    .bg-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.4;animation:blobMove ease-in-out infinite alternate;}
+    @keyframes blobMove{0%{transform:translate(0,0) scale(1);}50%{transform:translate(32px,-24px) scale(1.05);}100%{transform:translate(-16px,32px) scale(.96);}}
+    body.has-bg-image #bg-blobs{opacity:0;}
+    #food-particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+    .food-particle{position:absolute;opacity:0;animation:pFloat linear infinite;}
+    @keyframes pFloat{0%{transform:translateY(105vh) rotate(0deg);opacity:0;}8%{opacity:.1;}90%{opacity:.05;}100%{transform:translateY(-15vh) rotate(480deg);opacity:0;}}
+
+    /* ── TOPNAV ── */
+    .topnav{position:sticky;top:0;z-index:200;height:var(--nav-h);background:rgba(250,249,247,.95);backdrop-filter:blur(20px) saturate(160%);display:flex;align-items:center;gap:12px;padding:0 28px;border-bottom:1px solid var(--border);box-shadow:var(--sh-xs);}
+    body.has-bg-image .topnav{background:rgba(250,249,247,.85);}
+    .topnav::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2.5px;background:linear-gradient(90deg,var(--sage-400),var(--peach-300),var(--sky-400),var(--lavender-400),var(--sage-400));background-size:300% 100%;animation:rainbow 4s linear infinite;}
+    @keyframes rainbow{0%{background-position:0% 0;}100%{background-position:300% 0;}}
+    .nav-brand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+    .nav-brand-logos{display:flex;align-items:center;gap:6px;}
+    .nav-brand-logos img{height:32px;border-radius:8px;object-fit:contain;}
+    .nav-divider{width:1px;height:24px;background:var(--border);flex-shrink:0;}
+    .nav-brand-text .title{font-size:.76rem;font-weight:700;color:var(--ink-1);font-family:var(--font);}
+    .nav-brand-text .subtitle{font-size:.54rem;font-weight:400;font-style:italic;color:var(--ink-4);font-family:var(--font);}
+    .nav-badge{display:inline-flex;align-items:center;gap:6px;background:var(--sage-800);border-radius:var(--r-full);padding:5px 12px;font-size:.64rem;font-weight:700;color:#fff;box-shadow:0 3px 12px rgba(58,117,64,.3);font-family:var(--font);}
+    .nav-links{display:flex;align-items:center;gap:3px;}
+    .nav-link{padding:6px 14px;border-radius:var(--r-full);font-size:.74rem;font-weight:700;color:var(--ink-3);transition:all .2s;border:1.5px solid transparent;font-family:var(--font);}
+    .nav-link:hover{color:var(--sage-700);background:var(--sage-50);border-color:var(--sage-200);}
+    .nav-link.active{color:#fff;background:var(--sage-700);box-shadow:0 3px 10px rgba(58,117,64,.25);}
+    .nav-right{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0;}
+    .nav-status{display:flex;align-items:center;gap:7px;}
+    .status-dot{width:8px;height:8px;border-radius:50%;background:var(--sage-400);box-shadow:0 0 0 3px rgba(106,173,106,.2);animation:sPulse 2s ease-in-out infinite;}
+    @keyframes sPulse{0%,100%{box-shadow:0 0 0 3px rgba(106,173,106,.2);}50%{box-shadow:0 0 0 6px rgba(106,173,106,.04);}}
+    .status-dot.loading{background:var(--peach-400);animation:sDot .8s ease-in-out infinite;}
+    @keyframes sDot{0%,100%{transform:scale(1);}50%{transform:scale(1.4);}}
+    .status-dot.error{background:var(--blush-500);animation:none;}
+    .status-text{font-size:.68rem;font-weight:700;color:var(--ink-3);font-family:var(--font);}
+    .nav-timestamp{font-size:.62rem;font-weight:400;color:var(--ink-4);font-family:var(--font);}
+    .btn-refresh{display:flex;align-items:center;gap:6px;padding:6px 14px;background:var(--sage-700);border:none;border-radius:var(--r-full);color:#fff;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .25s;font-family:var(--font);box-shadow:0 3px 10px rgba(58,117,64,.25);}
+    .btn-refresh:hover{background:var(--sage-800);transform:translateY(-1px);}
+    .btn-refresh svg{transition:transform .5s;}
+    .btn-refresh:hover svg{transform:rotate(180deg);}
+
+    /* ── HERO ── */
+    .hero-wrap{padding:24px 28px 0;max-width:1520px;margin:0 auto;position:relative;z-index:5;}
+    .hero-card{background:linear-gradient(135deg,var(--sage-900) 0%,var(--sage-700) 60%,#2d7a3a 100%);border-radius:var(--r-xl);padding:32px 38px;position:relative;overflow:hidden;box-shadow:var(--sh-xl);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+    .hero-card::before{content:'';position:absolute;top:-60px;right:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.07) 0%,transparent 70%);}
+    .hero-card-emoji{position:absolute;bottom:-10px;right:28px;font-size:6.5rem;opacity:.07;line-height:1;pointer-events:none;animation:floatE 4s ease-in-out infinite;}
+    @keyframes floatE{0%,100%{transform:translateY(0) rotate(-5deg);}50%{transform:translateY(-10px) rotate(4deg);}}
+    .hero-left{position:relative;z-index:2;}
+    .hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:var(--r-full);padding:4px 14px;margin-bottom:14px;font-size:.6rem;font-weight:700;color:rgba(255,255,255,.8);letter-spacing:.1em;text-transform:uppercase;font-family:var(--font);}
+    .hero-title{font-size:clamp(1.4rem,2.2vw,2rem);font-weight:900;color:#fff;line-height:1.25;margin-bottom:10px;font-family:var(--font);}
+    .hero-title em{color:#a3e6ad;font-style:italic;}
+    .hero-sub{font-size:.78rem;font-weight:400;font-style:italic;color:rgba(255,255,255,.6);max-width:480px;line-height:1.8;font-family:var(--font);}
+    .hero-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px;}
+    .hero-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:var(--r-full);padding:5px 12px;font-size:.64rem;font-weight:600;color:rgba(255,255,255,.85);font-family:var(--font);}
+    .hero-stats{display:flex;gap:14px;flex-shrink:0;position:relative;z-index:2;}
+    .hero-stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:var(--r-md);padding:14px 18px;text-align:center;min-width:88px;backdrop-filter:blur(8px);}
+    .hero-stat-val{font-size:1.6rem;font-weight:900;font-style:italic;color:#fff;line-height:1;font-family:var(--font);}
+    .hero-stat-lbl{font-size:.58rem;color:rgba(255,255,255,.55);margin-top:5px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;font-family:var(--font);}
+
+    /* ── KPI CARDS ── */
+    .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:18px 28px 0;max-width:1520px;margin:0 auto;position:relative;z-index:5;}
+    .kpi-card{border-radius:var(--r-lg);padding:16px 20px;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:14px;position:relative;overflow:hidden;transition:all .3s;cursor:default;box-shadow:var(--sh-sm);}
+    .kpi-card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg);}
+    .kpi-a{background:linear-gradient(135deg,var(--sage-800),var(--sage-600));}
+    .kpi-b{background:linear-gradient(135deg,#7a4010,var(--peach-500));}
+    .kpi-c{background:linear-gradient(135deg,var(--sky-800),var(--sky-600));}
+    .kpi-d{background:linear-gradient(135deg,#7a1a1d,var(--blush-500));}
+    .kpi-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.2);flex-shrink:0;transition:transform .3s;}
+    .kpi-card:hover .kpi-icon{transform:rotate(-8deg) scale(1.12);}
+    .kpi-label{font-size:.55rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px;font-family:var(--font);}
+    .kpi-value{font-size:1.75rem;font-weight:900;font-style:italic;color:#fff;line-height:1;font-family:var(--font);}
+    .kpi-sub{font-size:.58rem;font-weight:400;color:rgba(255,255,255,.5);margin-top:4px;font-family:var(--font);}
+
+    /* ── MAIN ── */
+    .main{padding:20px 28px 40px;max-width:1520px;margin:0 auto;position:relative;z-index:5;}
+
+    /* ── SECTION LABEL ── */
+    .section-label{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+    .sec-pill{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-full);padding:5px 14px;font-size:.7rem;font-weight:700;color:var(--ink-2);box-shadow:var(--sh-xs);font-family:var(--font);}
+    body.has-bg-image .sec-pill{background:rgba(250,249,247,.85);backdrop-filter:blur(12px);}
+    .sec-pill .dot{width:7px;height:7px;border-radius:50%;}
+    .sec-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+
+    /* ── TWO COL ── */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+
+    /* ── PANEL ── */
+    .panel{background:var(--surface);border-radius:var(--r-lg);border:1.5px solid var(--border);overflow:hidden;box-shadow:var(--sh-sm);display:flex;flex-direction:column;transition:box-shadow .3s;}
+    .panel:hover{box-shadow:var(--sh-lg);}
+    body.has-bg-image .panel{background:rgba(250,249,247,.92);backdrop-filter:blur(16px);}
+
+    /* ── PANEL HEADER ── */
+    .panel-header-green{background:linear-gradient(135deg,var(--sage-900) 0%,var(--sage-700) 100%);padding:16px 20px;border-bottom:2px solid rgba(151,202,151,.35);}
+    .panel-header-red{background:linear-gradient(135deg,#5c1a1d 0%,#b83035 100%);padding:16px 20px;border-bottom:2px solid rgba(253,164,175,.3);}
+    .ph-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+    .ph-left{display:flex;align-items:center;gap:11px;}
+    .ph-icon{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+    .ph-title{font-size:.82rem;font-weight:700;color:#fff;line-height:1.3;font-family:var(--font);}
+    .ph-sub{font-size:.6rem;font-weight:400;font-style:italic;color:rgba(255,255,255,.5);margin-top:3px;font-family:var(--font);}
+    .ph-badge{padding:3px 12px;border-radius:var(--r-full);background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.9);font-family:var(--font);font-size:.62rem;font-weight:700;white-space:nowrap;flex-shrink:0;}
+    .ph-search{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:var(--r-full);padding:6px 14px;margin-top:12px;transition:all .2s;}
+    .ph-search:focus-within{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.18);}
+    .ph-search i{color:rgba(255,255,255,.4);font-size:.65rem;flex-shrink:0;}
+    .ph-search input{border:none;outline:none;font-family:var(--font);font-size:.76rem;color:#fff;background:transparent;width:100%;font-style:italic;}
+    .ph-search input::placeholder{color:rgba(255,255,255,.35);}
+
+    /* ── SORT BAR ── */
+    .sort-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--base);border-bottom:1px solid var(--border);flex-wrap:wrap;}
+    .sort-bar-label{font-family:var(--font);font-size:.6rem;font-weight:700;color:var(--ink-4);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;}
+    .sort-select{padding:5px 10px;border-radius:var(--r-sm);border:1.5px solid var(--border-2);background:var(--surface);color:var(--ink-2);font-family:var(--font);font-size:.72rem;font-weight:600;cursor:pointer;outline:none;transition:all .2s;}
+    .sort-select:focus{border-color:var(--sage-400);box-shadow:0 0 0 3px rgba(74,144,80,.1);}
+    .sort-select.red-select:focus{border-color:var(--blush-400);box-shadow:0 0 0 3px rgba(244,63,94,.1);}
+
+    /* ══════════════════════════════════
+       UNIFIED CHART CARD — FIXED
+    ══════════════════════════════════ */
+    .chart-card{
+      background:var(--surface);border-radius:var(--r-xl);
+      border:1.5px solid var(--border);box-shadow:var(--sh-md);
+      overflow:hidden;margin-bottom:18px;
+      transition:box-shadow .3s;
+    }
+    .chart-card:hover{box-shadow:var(--sh-lg);}
+    body.has-bg-image .chart-card{background:rgba(250,249,247,.93);backdrop-filter:blur(18px);}
+
+    .cc-header{
+      background:linear-gradient(120deg,var(--sage-900) 0%,var(--sage-700) 45%,#1e6b72 100%);
+      padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+      position:relative;overflow:hidden;
+    }
+    .cc-header::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%);}
+    .cc-header-left{display:flex;align-items:center;gap:12px;}
+    .cc-header-icon{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+    .cc-header-title{font-size:.84rem;font-weight:700;color:#fff;font-family:var(--font);}
+    .cc-header-sub{font-size:.6rem;font-weight:400;font-style:italic;color:rgba(255,255,255,.5);margin-top:2px;font-family:var(--font);}
+    .cc-header-badge{padding:4px 14px;border-radius:var(--r-full);background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);font-family:var(--font);font-size:.62rem;font-weight:700;color:rgba(255,255,255,.9);flex-shrink:0;}
+
+    .cc-body{padding:22px 28px 24px;display:grid;grid-template-columns:180px 1fr 200px;gap:28px;align-items:center;}
+
+    /* Donut */
+    .cc-donut-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;flex-shrink:0;}
+    .cc-donut-svg{width:140px;height:140px;overflow:visible;}
+    .cc-donut-track{fill:none;stroke:var(--base-3);stroke-width:14;}
+    .cc-donut-pst{fill:none;stroke:url(#gradPst);stroke-width:14;stroke-linecap:round;transition:stroke-dasharray 1.4s cubic-bezier(.34,1.1,.64,1);}
+    .cc-donut-nopst{fill:none;stroke:url(#gradNoPst);stroke-width:14;stroke-linecap:round;transition:stroke-dasharray 1.4s cubic-bezier(.34,1.1,.64,1) .1s;}
+    .cc-donut-center{text-align:center;}
+    .cc-donut-pct{font-size:2.2rem;font-weight:900;font-style:italic;color:var(--sage-700);line-height:1;font-family:var(--font);}
+    .cc-donut-lbl{font-size:.58rem;font-weight:700;color:var(--ink-4);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;font-family:var(--font);}
+
+    /* Center */
+    .cc-center{display:flex;flex-direction:column;gap:14px;}
+    .cc-bar-title{font-size:.72rem;font-weight:700;color:var(--ink-2);letter-spacing:.01em;font-family:var(--font);}
+
+    .cc-annotations{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+    .cc-anno{border-radius:var(--r-md);padding:10px 14px;display:flex;flex-direction:column;gap:2px;border:1.5px solid;}
+    .cc-anno-pst{background:linear-gradient(135deg,var(--sage-50),#f0faf0);border-color:var(--sage-200);}
+    .cc-anno-nopst{background:linear-gradient(135deg,var(--blush-50),#fff5f5);border-color:var(--blush-200);}
+    .cc-anno-label{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-family:var(--font);}
+    .cc-anno-pst .cc-anno-label{color:var(--sage-600);}
+    .cc-anno-nopst .cc-anno-label{color:var(--blush-600);}
+    .cc-anno-val{font-size:1.6rem;font-weight:900;font-style:italic;line-height:1;font-family:var(--font);}
+    .cc-anno-pst .cc-anno-val{color:var(--sage-800);}
+    .cc-anno-nopst .cc-anno-val{color:#b83035;}
+    .cc-anno-pct{font-family:var(--font);font-size:.7rem;font-weight:700;margin-top:1px;}
+    .cc-anno-pst .cc-anno-pct{color:var(--sage-500);}
+    .cc-anno-nopst .cc-anno-pct{color:#c04045;}
+
+    .cc-stacked-wrap{position:relative;}
+    .cc-stacked-track{
+      height:36px;border-radius:12px;overflow:hidden;
+      display:flex;background:var(--base-3);
+      box-shadow:inset 0 2px 4px rgba(0,0,0,.07);
+    }
+    .cc-seg{
+      height:100%;display:flex;align-items:center;justify-content:center;
+      font-size:.66rem;font-weight:900;font-family:var(--font);color:#fff;
+      transition:width 1.2s cubic-bezier(.34,1.1,.64,1);
+      overflow:hidden;white-space:nowrap;position:relative;flex-shrink:0;
+    }
+    .cc-seg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.18) 0%,transparent 55%);}
+    .cc-seg-pst{background:linear-gradient(90deg,var(--sage-700),var(--sage-500));}
+    .cc-seg-nopst{background:linear-gradient(90deg,#b83035,#e05055);}
+    .cc-seg-label{position:relative;z-index:1;}
+
+    .cc-axis{display:flex;justify-content:space-between;margin-top:5px;}
+    .cc-axis-tick{font-family:var(--font);font-size:.55rem;color:var(--ink-5);}
+
+    /* Right legend */
+    .cc-legend{display:flex;flex-direction:column;gap:10px;flex-shrink:0;}
+    .cc-leg-item{border-radius:var(--r-md);padding:12px 14px;border:1.5px solid;display:flex;align-items:center;gap:11px;transition:all .2s;}
+    .cc-leg-pst{background:var(--sage-50);border-color:var(--sage-200);}
+    .cc-leg-pst:hover{background:var(--sage-100);transform:translateX(2px);}
+    .cc-leg-nopst{background:var(--blush-50);border-color:var(--blush-200);}
+    .cc-leg-nopst:hover{background:var(--blush-100);transform:translateX(2px);}
+    .cc-leg-ops{background:var(--sky-50);border-color:var(--sky-200);}
+    .cc-leg-ops:hover{background:var(--sky-100);transform:translateX(2px);}
+    .cc-leg-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+    .cc-leg-pst .cc-leg-icon{background:linear-gradient(135deg,var(--sage-200),var(--sage-100));}
+    .cc-leg-nopst .cc-leg-icon{background:linear-gradient(135deg,var(--blush-200),var(--blush-100));}
+    .cc-leg-ops .cc-leg-icon{background:linear-gradient(135deg,var(--sky-200),var(--sky-100));}
+    .cc-leg-info{min-width:0;}
+    .cc-leg-label{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-family:var(--font);}
+    .cc-leg-pst .cc-leg-label{color:var(--sage-600);}
+    .cc-leg-nopst .cc-leg-label{color:var(--blush-600);}
+    .cc-leg-ops .cc-leg-label{color:var(--sky-700);}
+    .cc-leg-num{font-size:1.25rem;font-weight:900;font-style:italic;color:var(--ink-1);line-height:1.2;font-family:var(--font);}
+    .cc-leg-sub{font-family:var(--font);font-size:.58rem;font-weight:400;font-style:italic;color:var(--ink-4);margin-top:1px;}
+
+    /* ── DAPUR LIST ── */
+    .list-scroll{overflow-y:auto;flex:1;max-height:calc(100vh - 380px);min-height:340px;}
+    .list-scroll::-webkit-scrollbar{width:4px;}
+    .list-scroll::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:999px;}
+
+    .dapur-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:all .18s;text-decoration:none;color:inherit;}
+    .dapur-item:last-child{border-bottom:none;}
+    .dapur-item:hover{background:var(--sage-50);transform:translateX(3px);}
+    .dapur-item.red-item:hover{background:var(--blush-50);}
+
+    .item-num{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.64rem;font-weight:700;font-family:var(--font);flex-shrink:0;background:var(--sage-100);color:var(--sage-700);border:1px solid var(--sage-200);}
+    .dapur-item.red-item .item-num{background:var(--blush-100);color:var(--blush-600);border-color:var(--blush-200);}
+
+    .item-body{flex:1;min-width:0;}
+    .item-name{font-size:.82rem;font-weight:700;color:var(--ink-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--font);}
+    .item-meta{font-size:.6rem;font-weight:400;font-style:italic;color:var(--ink-4);font-family:var(--font);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+    .item-tags{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+    .itag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:var(--r-full);font-size:.58rem;font-weight:700;white-space:nowrap;font-family:var(--font);}
+    .itag-ops{background:var(--sage-100);color:var(--sage-700);border:1px solid var(--sage-200);}
+    .itag-pst{background:var(--sky-100);color:var(--sky-700);border:1px solid var(--sky-200);}
+    .itag-nopst{background:var(--blush-50);color:var(--blush-600);border:1px solid var(--blush-200);}
+    .itag-kec{background:var(--base-2);color:var(--ink-3);border:1px solid var(--border-2);}
+
+    .item-arrow{color:var(--ink-5);font-size:.7rem;transition:transform .18s,color .18s;flex-shrink:0;}
+    .dapur-item:hover .item-arrow{transform:translateX(3px);color:var(--sage-500);}
+    .dapur-item.red-item:hover .item-arrow{color:var(--blush-400);}
+
+    /* ── EMPTY ── */
+    .list-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;color:var(--ink-4);text-align:center;}
+    .list-empty i{font-size:2rem;margin-bottom:12px;opacity:.3;}
+    .list-empty p{font-size:.82rem;font-family:var(--font);}
+
+    /* ── PANEL FOOTER ── */
+    .panel-footer{padding:10px 16px;background:var(--base-2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;flex-shrink:0;}
+    .pf-count{font-size:.68rem;color:var(--ink-3);font-weight:600;font-family:var(--font);}
+    .pf-count span{font-weight:800;}
+    .pf-hint{font-family:var(--font);font-size:.56rem;font-style:italic;color:var(--ink-5);}
+
+    /* ── SKELETON ── */
+    .skeleton{background:linear-gradient(90deg,var(--base-2) 25%,var(--base-3) 50%,var(--base-2) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:6px;}
+    @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+    /* ── ANIMATIONS ── */
+    .anim-ready{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.34,1.2,.64,1);}
+    .anim-ready.anim-in{opacity:1;transform:none;}
+    .anim-delay-1{transition-delay:.06s;}.anim-delay-2{transition-delay:.12s;}.anim-delay-3{transition-delay:.18s;}.anim-delay-4{transition-delay:.24s;}
+
+    /* ── FOOTER ── */
+    .site-footer{background:linear-gradient(120deg,var(--sage-900) 0%,var(--sage-700) 55%,#1e5f72 100%);border-top:2px solid rgba(255,255,255,.07);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+    .footer-links-group{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+    .footer-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:var(--r-full);color:rgba(255,255,255,.85);font-size:.7rem;font-weight:600;transition:all .2s;font-family:var(--font);}
+    .footer-link:hover{background:rgba(255,255,255,.2);}
+    .footer-copy{font-family:var(--font);font-size:.6rem;font-weight:400;font-style:italic;color:rgba(255,255,255,.4);}
+
+    ::-webkit-scrollbar{width:4px;height:4px;}
+    ::-webkit-scrollbar-track{background:transparent;}
+    ::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:999px;}
+
+    @media(max-width:1024px){.two-col{grid-template-columns:1fr;}.hero-stats{display:none;}.kpi-row{grid-template-columns:repeat(2,1fr);}.cc-body{grid-template-columns:1fr;}}
+    @media(max-width:768px){.topnav{padding:8px 16px;flex-wrap:wrap;height:auto;}.nav-links{order:3;width:100%;}.main,.hero-wrap,.kpi-row{padding-left:14px;padding-right:14px;}.list-scroll{max-height:360px;}.cc-body{padding:16px;}}
+    @media(max-width:520px){.kpi-row{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<div id="bg-canvas"></div>
+<div id="bg-overlay"></div>
+
+<!-- ══ SPLASH ══ -->
+<div id="splash">
+  <div class="splash-blob" style="width:380px;height:380px;top:-100px;left:-100px;background:rgba(163,230,173,.32);animation-duration:7s;"></div>
+  <div class="splash-blob" style="width:320px;height:320px;bottom:-80px;right:-80px;background:rgba(253,186,116,.28);animation-duration:5s;animation-delay:.8s;"></div>
+  <div class="splash-blob" style="width:260px;height:260px;top:30%;right:8%;background:rgba(147,197,253,.22);animation-duration:6s;animation-delay:1.2s;"></div>
+  <div class="splash-inner">
+    <div class="splash-icon">🏆</div>
+    <div class="splash-title">Daftar <span>Dapur</span> SPPG</div>
+    <div class="splash-sub">KC Medan Kota · Monitoring Peserta BPJS TK 2026</div>
+    <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
+    <div class="splash-dots">
+      <span class="sp-dot"></span><span class="sp-dot"></span><span class="sp-dot"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ REFRESH OVERLAY ══ -->
+<div id="refresh-overlay">
+  <div style="position:relative;width:140px;height:140px;display:flex;align-items:center;justify-content:center;">
+    <div class="refresh-food-orbit" id="foodOrbit"></div>
+    <div class="refresh-spinner">🍲</div>
+  </div>
+  <div class="refresh-text">Menyegarkan Data</div>
+  <div class="refresh-sub">Mengambil data terbaru…</div>
+</div>
+
+<!-- ══ AMBIENT ══ -->
+<div id="bg-blobs">
+  <div class="bg-blob" style="width:480px;height:480px;top:-140px;left:-140px;background:rgba(163,230,173,.22);animation-duration:12s;"></div>
+  <div class="bg-blob" style="width:380px;height:380px;top:20%;right:-110px;background:rgba(253,186,116,.16);animation-duration:9s;animation-delay:2s;"></div>
+  <div class="bg-blob" style="width:320px;height:320px;bottom:8%;left:8%;background:rgba(147,197,253,.14);animation-duration:11s;animation-delay:1s;"></div>
+</div>
+<div id="food-particles"></div>
+
+<!-- ══ BG PANEL ══ -->
+<div class="bg-panel" id="bgPanel">
+  <div class="bg-panel-header">
+    <span class="bg-panel-title"><i class="fas fa-image" style="font-size:.68rem;"></i> Latar Belakang</span>
+    <button class="bg-panel-close" id="bgPanelClose">✕</button>
+  </div>
+  <div class="bg-panel-body">
+    <div class="bg-section-label">Preset</div>
+    <div class="bg-presets" id="bgPresets"></div>
+    <div class="bg-section-label">Upload Gambar</div>
+    <label class="bg-upload-btn">
+      <i class="fas fa-upload" style="font-size:.65rem;"></i>
+      Pilih gambar dari perangkat
+      <input type="file" id="bgFileInput" accept="image/*" style="display:none;">
+    </label>
+    <div class="bg-section-label" id="opacityLabel" style="display:none;">Opacity Overlay</div>
+    <div class="bg-opacity-row" id="opacityRow" style="display:none;">
+      <span class="bg-opacity-label">Gelap</span>
+      <input type="range" class="bg-slider" id="bgOpacitySlider" min="10" max="85" value="55" step="5">
+      <span class="bg-opacity-val" id="bgOpacityVal">55%</span>
+    </div>
+  </div>
+</div>
+<button class="bg-fab" id="bgFab" title="Atur Latar Belakang"><i class="fas fa-palette"></i></button>
+
+<!-- ══ TOPNAV ══ -->
+<nav class="topnav">
+  <div class="nav-brand">
+    <div class="nav-brand-logos">
+      <img src="asset/medan.png" alt="Medan" onerror="this.style.display='none'">
+      <img src="asset/pemprovsu.png" alt="Pemprovsu" onerror="this.style.display='none'">
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-brand-text">
+      <span class="title">BPJS Ketenagakerjaan</span>
+      <span class="subtitle">KC Medan Kota / B00 — Segmen SPPG</span>
+    </div>
+  </div>
+  <div class="nav-badge"><span>🥗</span> Program MBG 2026</div>
+  <div class="nav-divider"></div>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="topworst.html" class="nav-link active">Kepesertaan</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-status">
+      <div class="status-dot loading" id="statusDot"></div>
+      <span class="status-text" id="statusText">Memuat…</span>
+    </div>
+    <span class="nav-timestamp" id="navTimestamp"></span>
+    <button class="btn-refresh" id="btnRefresh">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0115-6.7L21 8"/>
+        <path d="M3 22v-6h6"/><path d="M21 12a9 9 0 01-15 6.7L3 16"/>
+      </svg>
+      Refresh
+    </button>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<div class="hero-wrap">
+  <div class="hero-card anim-ready anim-delay-1">
+    <div class="hero-card-emoji">🏆</div>
+    <div class="hero-left">
+      <div class="hero-tag"><i class="fas fa-list-check" style="font-size:.55rem;"></i> Daftar Dapur</div>
+      <div class="hero-title">Monitor <em>Operasional</em><br>& Kepesertaan Dapur</div>
+      <div class="hero-sub">Pantau daftar dapur SPPG yang beroperasi dan sudah menjadi peserta BPJS Ketenagakerjaan, serta yang masih perlu didaftarkan.</div>
+      <div class="hero-chips">
+        <span class="hero-chip"><i class="fas fa-map-marker-alt"></i> Wilayah Medan Kota</span>
+        <span class="hero-chip"><i class="fas fa-calendar"></i> 2026</span>
+        <span class="hero-chip" id="heroChipTotal"><i class="fas fa-kitchen-set"></i> Memuat data…</span>
+        <span class="hero-chip">
+          <span style="width:6px;height:6px;border-radius:50%;background:#a3e6ad;display:inline-block;animation:sPulse 1.5s infinite;"></span> Live
+        </span>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-val" id="heroStatTotal">—</div>
+        <div class="hero-stat-lbl">Total SPPG</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val" id="heroStatOps">—</div>
+        <div class="hero-stat-lbl">Beroperasi</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val" id="heroStatOpsPst">—</div>
+        <div class="hero-stat-lbl">Ops + Peserta</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val" id="heroStatOpsNoPst">—</div>
+        <div class="hero-stat-lbl">Ops, Blm Pst</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ KPI ROW ══ -->
+<div class="kpi-row anim-ready anim-delay-2">
+  <div class="kpi-card kpi-a">
+    <div class="kpi-icon">🏫</div>
+    <div>
+      <div class="kpi-label">Total SPPG</div>
+      <div class="kpi-value" id="kpiTotal">—</div>
+      <div class="kpi-sub">Seluruh dapur terdaftar</div>
+    </div>
+  </div>
+  <div class="kpi-card kpi-b">
+    <div class="kpi-icon">🍲</div>
+    <div>
+      <div class="kpi-label">Beroperasi</div>
+      <div class="kpi-value" id="kpiOps">—</div>
+      <div class="kpi-sub">SPPG aktif beroperasi</div>
+    </div>
+  </div>
+  <div class="kpi-card kpi-c">
+    <div class="kpi-icon">🛡️</div>
+    <div>
+      <div class="kpi-label">Ops & Sudah Peserta</div>
+      <div class="kpi-value" id="kpiOpsPst">—</div>
+      <div class="kpi-sub">Beroperasi + aktif BPJS TK</div>
+    </div>
+  </div>
+  <div class="kpi-card kpi-d">
+    <div class="kpi-icon">⚠️</div>
+    <div>
+      <div class="kpi-label">Ops & Belum Peserta</div>
+      <div class="kpi-value" id="kpiOpsNoPst">—</div>
+      <div class="kpi-sub">Perlu segera didaftarkan</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+
+  <div class="section-label anim-ready anim-delay-3">
+    <div class="sec-pill"><span class="dot" style="background:var(--sage-400);"></span>📊 Komposisi Kepesertaan</div>
+    <span class="sec-line"></span>
+  </div>
+
+  <!-- ══ UNIFIED CHART CARD ══ -->
+  <div class="chart-card anim-ready anim-delay-3">
+    <div class="cc-header">
+      <div class="cc-header-left">
+        <div class="cc-header-icon">🛡️</div>
+        <div>
+          <div class="cc-header-title">Kepesertaan BPJS TK — Dapur Beroperasi</div>
+          <div class="cc-header-sub">Perbandingan sudah vs belum peserta dari total dapur aktif</div>
+        </div>
+      </div>
+      <span class="cc-header-badge" id="ccBadge">Memuat…</span>
+    </div>
+    <div class="cc-body">
+
+      <!-- Donut -->
+      <div class="cc-donut-wrap">
+        <svg class="cc-donut-svg" viewBox="0 0 140 140">
+          <defs>
+            <linearGradient id="gradPst" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#234628"/>
+              <stop offset="100%" stop-color="#6aad6a"/>
+            </linearGradient>
+            <linearGradient id="gradNoPst" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#b83035"/>
+              <stop offset="100%" stop-color="#e05055"/>
+            </linearGradient>
+          </defs>
+          <!-- track -->
+          <circle class="cc-donut-track" cx="70" cy="70" r="52"/>
+          <!-- belum peserta arc (drawn behind) -->
+          <circle class="cc-donut-nopst" cx="70" cy="70" r="52"
+            stroke-dasharray="0 326.7" stroke-dashoffset="0" id="donutNoPst"/>
+          <!-- sudah peserta arc (drawn on top) -->
+          <circle class="cc-donut-pst" cx="70" cy="70" r="52"
+            stroke-dasharray="0 326.7" stroke-dashoffset="0" id="donutPst"/>
+        </svg>
+        <div class="cc-donut-center">
+          <div class="cc-donut-pct" id="donutPctLabel">—%</div>
+          <div class="cc-donut-lbl">Sudah Peserta</div>
+        </div>
+      </div>
+
+      <!-- Center stacked bar + annotations -->
+      <div class="cc-center">
+        <div class="cc-bar-title">Distribusi dari Total Dapur Beroperasi</div>
+
+        <div class="cc-annotations">
+          <div class="cc-anno cc-anno-pst">
+            <div class="cc-anno-label">✅ Sudah Peserta</div>
+            <div class="cc-anno-val" id="ccPstVal">—</div>
+            <div class="cc-anno-pct" id="ccPstPct">—%</div>
+          </div>
+          <div class="cc-anno cc-anno-nopst">
+            <div class="cc-anno-label">⚠️ Belum Peserta</div>
+            <div class="cc-anno-val" id="ccNoPstVal">—</div>
+            <div class="cc-anno-pct" id="ccNoPstPct">—%</div>
+          </div>
+        </div>
+
+        <div class="cc-stacked-wrap">
+          <div class="cc-stacked-track">
+            <div class="cc-seg cc-seg-pst" id="ccSegPst" style="width:0%"></div>
+            <div class="cc-seg cc-seg-nopst" id="ccSegNoPst" style="width:0%"></div>
+          </div>
+          <div class="cc-axis">
+            <span class="cc-axis-tick">0%</span>
+            <span class="cc-axis-tick">25%</span>
+            <span class="cc-axis-tick">50%</span>
+            <span class="cc-axis-tick">75%</span>
+            <span class="cc-axis-tick">100%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right legend -->
+      <div class="cc-legend">
+        <div class="cc-leg-item cc-leg-ops">
+          <div class="cc-leg-icon">🍲</div>
+          <div class="cc-leg-info">
+            <div class="cc-leg-label">Total Beroperasi</div>
+            <div class="cc-leg-num" id="ccOpsNum">—</div>
+            <div class="cc-leg-sub">dapur aktif</div>
+          </div>
+        </div>
+        <div class="cc-leg-item cc-leg-pst">
+          <div class="cc-leg-icon">🛡️</div>
+          <div class="cc-leg-info">
+            <div class="cc-leg-label">Sudah Peserta</div>
+            <div class="cc-leg-num" id="ccPstNum">—</div>
+            <div class="cc-leg-sub" id="ccPstSub">—% dari beroperasi</div>
+          </div>
+        </div>
+        <div class="cc-leg-item cc-leg-nopst">
+          <div class="cc-leg-icon">⚠️</div>
+          <div class="cc-leg-info">
+            <div class="cc-leg-label">Belum Peserta</div>
+            <div class="cc-leg-num" id="ccNoPstNum">—</div>
+            <div class="cc-leg-sub" id="ccNoPstSub">—% perlu didaftarkan</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-label anim-ready anim-delay-4">
+    <div class="sec-pill"><span class="dot" style="background:var(--sage-400);"></span>📋 Daftar Dapur Beroperasi</div>
+    <span class="sec-line"></span>
+  </div>
+
+  <div class="two-col anim-ready anim-delay-4">
+
+    <!-- LEFT: BEROPERASI + SUDAH PESERTA -->
+    <div class="panel">
+      <div class="panel-header-green">
+        <div class="ph-row">
+          <div class="ph-left">
+            <div class="ph-icon">✅</div>
+            <div>
+              <div class="ph-title">Beroperasi · Sudah Peserta BPJS TK</div>
+              <div class="ph-sub">Dapur aktif yang telah terlindungi</div>
+            </div>
+          </div>
+          <span class="ph-badge" id="badgeGreen">—</span>
+        </div>
+        <div class="ph-search">
+          <i class="fas fa-magnifying-glass"></i>
+          <input type="text" id="searchGreen" placeholder="Cari nama dapur / yayasan / kecamatan…" autocomplete="off">
+        </div>
+      </div>
+      <div class="sort-bar">
+        <span class="sort-bar-label"><i class="fas fa-sort" style="color:var(--sage-500);margin-right:3px;"></i>Urutkan:</span>
+        <select id="sortGreen" class="sort-select">
+          <option value="namaSppg|asc">Nama Dapur A–Z</option>
+          <option value="namaSppg|desc">Nama Dapur Z–A</option>
+          <option value="yayasan|asc">Yayasan A–Z</option>
+          <option value="kecamatan|asc">Kecamatan A–Z</option>
+        </select>
+      </div>
+      <div class="list-scroll" id="listGreen">
+        <div style="padding:16px;display:flex;flex-direction:column;gap:8px;">
+          <div class="skeleton" style="height:58px;border-radius:10px;"></div>
+          <div class="skeleton" style="height:58px;border-radius:10px;"></div>
+          <div class="skeleton" style="height:58px;border-radius:10px;"></div>
+          <div class="skeleton" style="height:58px;border-radius:10px;"></div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="pf-count">Menampilkan <span id="countGreen">—</span> dapur</div>
+        <div class="pf-hint">Klik untuk detail yayasan</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: BEROPERASI + BELUM PESERTA -->
+    <div class="panel">
+      <div class="panel-header-red">
+        <div class="ph-row">
+          <div class="ph-left">
+            <div class="ph-icon">⚠️</div>
+            <div>
+              <div class="ph-title">Beroperasi · Belum Peserta BPJS TK</div>
+              <div class="ph-sub">Dapur aktif yang perlu segera didaftarkan</div>
+            </div>
+          </div>
+          <span class="ph-badge" id="badgeRed">—</span>
+        </div>
+        <div class="ph-search">
+          <i class="fas fa-magnifying-glass"></i>
+          <input type="text" id="searchRed" placeholder="Cari nama dapur / yayasan / kecamatan…" autocomplete="off">
+        </div>
+      </div>
+      <div class="sort-bar">
+        <span class="sort-bar-label"><i class="fas fa-sort" style="color:var(--blush-400);margin-right:3px;"></i>Urutkan:</span>
+        <select id="sortRed" class="sort-select red-select">
+          <option value="namaSppg|asc">Nama Dapur A–Z</option>
+          <option value="namaSppg|desc">Nama Dapur Z–A</option>
+          <option value="yayasan|asc">Yayasan A–Z</option>
+          <option value="kecamatan|asc">Kecamatan A–Z</option>
+        </select>
+      </div>
+      <div class="list-scroll" id="listRed">
+        <div style="padding:16px;display:flex;flex-direction:column;gap:8px;">
+          <div class="skeleton" style="height:58px;border-radius:10px;"></div>
+          <div class="skeleton" style="height:58px;border-radius:10px;"></div>
+          <div class="skeleton" style="height:58px;border-radius:10px;"></div>
+          <div class="skeleton" style="height:58px;border-radius:10px;"></div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="pf-count">Menampilkan <span id="countRed">—</span> dapur</div>
+        <div class="pf-hint">Klik untuk detail yayasan</div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links-group">
+    <a href="https://docs.google.com/spreadsheets/d/17yOLqEv-CWsLRHoPU2sxuNHnSbeepyZ6/edit?gid=1425570261" target="_blank" class="footer-link">
+      <i class="fas fa-table" style="font-size:.65rem;"></i> Data SPPG 2026
+    </a>
+    <a href="https://ejakon.bpjsketenagakerjaan.go.id/" target="_blank" class="footer-link">
+      <i class="fas fa-globe" style="font-size:.65rem;"></i> Pendaftaran
+    </a>
+    <a href="https://www.bpjsketenagakerjaan.go.id/jasa-konstruksi.html" target="_blank" class="footer-link">
+      <i class="fas fa-house" style="font-size:.65rem;"></i> Info Kepesertaan
+    </a>
+  </div>
+  <span class="footer-copy">© 2026 BPJS Ketenagakerjaan — Kantor Cabang Medan Kota</span>
+</footer>
+
+<script>
+/* ══ CONFIG ══ */
+const SHEET_ID  = '17yOLqEv-CWsLRHoPU2sxuNHnSbeepyZ6';
+const SHEET_GID = '1425570261';
+
+/*
+  COLUMN MAPPING (0-indexed):
+    Col B = index 1  → statusOps  (beroperasi / belum beroperasi)
+    Col F = index 5  → namaSppg
+    Col G = index 6  → kodeReg
+    Col J = index 9  → yayasan
+    Col L = index 11 → kecamatan
+    Col M = index 12 → kelurahan
+    Col N = index 13 → statusPeserta  (jika kosong = belum peserta)
+*/
+
+let opsPstData   = [];
+let opsNoPstData = [];
+let isFirstLoad  = true;
+
+/* ══ FOOD PARTICLES ══ */
+const FOODS=['🥑','🍓','🥕','🌽','🥦','🍊','🍎','🫐','🥝','🍋','🫑','🥬','🍇','🥜','🍅','🧄'];
+(function(){
+  const c=document.getElementById('food-particles');
+  FOODS.concat(FOODS).forEach(f=>{
+    const el=document.createElement('span');el.className='food-particle';el.textContent=f;
+    el.style.cssText=`left:${Math.random()*95}%;animation-duration:${20+Math.random()*22}s;animation-delay:-${Math.random()*32}s;font-size:${.8+Math.random()*.7}rem;`;
+    c.appendChild(el);
+  });
+})();
+(function(){
+  const orb=['🥦','🍎','🥕','🫐','🌽','🍋'];
+  const orbit=document.getElementById('foodOrbit');if(!orbit)return;
+  orb.forEach((f,i)=>{
+    const el=document.createElement('span');el.className='orbit-item';el.textContent=f;
+    const a=(i/orb.length)*2*Math.PI,r=62;
+    el.style.cssText=`left:${70+r*Math.cos(a)-10}px;top:${70+r*Math.sin(a)-10}px;position:absolute;font-size:1rem;`;
+    orbit.appendChild(el);
+  });
+})();
+
+/* ══ SPLASH ══ */
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    const s=document.getElementById('splash');s.classList.add('splash-exit');
+    setTimeout(()=>{s.style.display='none';triggerAnimations();},850);
+  },2600);
+});
+function triggerAnimations(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('anim-in');obs.unobserve(e.target);}});
+  },{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.anim-ready').forEach(el=>obs.observe(el));
+}
+
+/* ══ UTILS ══ */
+function setStatus(t,m){document.getElementById('statusDot').className=`status-dot ${t}`;document.getElementById('statusText').textContent=m;}
+function updateTimestamp(){const el=document.getElementById('navTimestamp');if(!el)return;el.textContent=new Date().toLocaleString('id-ID',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Jakarta'});}
+function toast(msg){const el=document.createElement('div');el.style.cssText=`position:fixed;top:76px;right:18px;background:#fff1f3;color:#be123c;border:1.5px solid #fecdd3;padding:11px 16px;border-radius:10px;font-size:.78rem;font-weight:600;z-index:9999;box-shadow:var(--sh-lg);max-width:280px;font-family:Arial,Helvetica,sans-serif;`;el.textContent=msg;document.body.appendChild(el);setTimeout(()=>el.remove(),5000);}
+function enc(s){return encodeURIComponent(s);}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function showRefreshOverlay(){if(isFirstLoad)return;document.getElementById('refresh-overlay').classList.add('active');}
+function hideRefreshOverlay(){document.getElementById('refresh-overlay').classList.remove('active');}
+function setEl(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
+
+/* ══════════════════════════════════════════════
+   STATUS LOGIC
+   - Kolom B (index 1): status operasional
+     → beroperasi jika mengandung kata: aktif / beroperasi / operasi / ya
+     → tidak beroperasi jika kosong, -, tidak, non, belum, tdk
+   - Kolom N (index 13): status peserta
+     → peserta jika mengandung: aktif / terdaftar / ya / iya / peserta / sudah / registered
+     → ATAU jika field TIDAK kosong (ada isian apapun = dianggap peserta)
+     → belum peserta jika kosong / - / belum / tidak / non / tdk / bukan
+══════════════════════════════════════════════ */
+function isOps(s){
+  const x=(s||'').trim().toLowerCase();
+  if(!x||x==='-')return false;
+  if(x.includes('tidak')||x.includes('non')||x.includes('belum')||x.includes('tdk'))return false;
+  return x.includes('aktif')||x.includes('beroperasi')||x.includes('operasi')||x.includes('ya')||x.includes('iya');
+}
+
+function isPeserta(s){
+  const x=(s||'').trim().toLowerCase();
+  // Kosong atau tanda minus = belum peserta
+  if(!x||x==='-')return false;
+  // Kata-kata yang jelas menunjukkan BELUM peserta
+  if(x==='belum peserta'||x.includes('belum')||x.includes('tidak')||x.includes('tdk')||x.includes('non')||x.includes('bukan'))return false;
+  // Jika ada isian apapun yang tersisa → anggap sudah peserta
+  return true;
+}
+
+/* ══ CSV PARSER ══ */
+function parseCSV(text){
+  const rows=[];
+  for(const line of text.split(/\r?\n/)){
+    if(!line.trim())continue;
+    const cols=[];let cur='',inQ=false;
+    for(let i=0;i<line.length;i++){
+      const c=line[i];
+      if(c==='"'){if(inQ&&line[i+1]==='"'){cur+='"';i++;}else inQ=!inQ;}
+      else if(c===','&&!inQ){cols.push(cur);cur='';}else cur+=c;
+    }
+    cols.push(cur);rows.push(cols);
+  }
+  return rows;
+}
+
+async function fetchCSV(){
+  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+  const res=await fetch(url);
+  if(!res.ok){
+    if(res.status===401||res.status===403)throw new Error('Akses ditolak — share spreadsheet ke "Anyone with link → Viewer"');
+    throw new Error(`HTTP ${res.status}`);
+  }
+  const text=await res.text();
+  if(!text.trim())throw new Error('CSV kosong');
+  const rows=parseCSV(text);
+  if(rows.length<2)return[];
+
+  console.log('[SPPG] Header row:', rows[0]);
+  console.log('[SPPG] Sample data row 1:', rows[1]);
+
+  return rows.slice(1).map((row,idx)=>{
+    const g=i=>(row[i]||'').trim();
+    const statusOps    = g(1);
+    const namaSppg     = g(5)||'-';
+    const kodeReg      = g(6);
+    const yayasan      = g(9)||'Tidak Diketahui';
+    const kecamatan    = g(11)||'Tidak Diketahui';
+    const kelurahan    = g(12)||'-';
+    const statusPeserta= g(13);
+
+    return{statusOps,namaSppg,kodeReg,yayasan,kecamatan,kelurahan,statusPeserta};
+  }).filter(r=>r.namaSppg&&r.namaSppg!=='-');
+}
+
+/* ══════════════════════════════════════════════
+   RENDER CHARTS — FIXED
+══════════════════════════════════════════════ */
+function renderCharts(pst, nopst){
+  const total = pst + nopst;
+  if(!total) return;
+
+  const CIRCUMFERENCE = 2 * Math.PI * 52;
+  const pstPct   = pst   / total * 100;
+  const nopstPct = nopst / total * 100;
+  const pstPctStr   = pstPct.toFixed(1);
+  const nopstPctStr = nopstPct.toFixed(1);
+
+  setEl('ccBadge', `${total} dapur beroperasi`);
+
+  const pstArc   = CIRCUMFERENCE * (pst   / total);
+  const nopstArc = CIRCUMFERENCE * (nopst / total);
+
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    const donutPst   = document.getElementById('donutPst');
+    const donutNoPst = document.getElementById('donutNoPst');
+
+    if(donutPst){
+      donutPst.style.strokeDasharray  = `${pstArc} ${CIRCUMFERENCE}`;
+      donutPst.style.strokeDashoffset = `${CIRCUMFERENCE * 0.25}`;
+    }
+    if(donutNoPst){
+      donutNoPst.style.strokeDasharray  = `${nopstArc} ${CIRCUMFERENCE}`;
+      donutNoPst.style.strokeDashoffset = `${CIRCUMFERENCE * 0.25 - pstArc}`;
+    }
+  }));
+
+  setEl('donutPctLabel', pstPctStr + '%');
+
+  setEl('ccPstVal',   pst.toLocaleString('id-ID'));
+  setEl('ccPstPct',   pstPctStr + '%');
+  setEl('ccNoPstVal', nopst.toLocaleString('id-ID'));
+  setEl('ccNoPstPct', nopstPctStr + '%');
+
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    const segPst   = document.getElementById('ccSegPst');
+    const segNoPst = document.getElementById('ccSegNoPst');
+    if(segPst){
+      segPst.style.width = pstPctStr + '%';
+      if(pstPct > 8) segPst.innerHTML = `<span class="cc-seg-label">${pstPctStr}%</span>`;
+    }
+    if(segNoPst){
+      segNoPst.style.width = nopstPctStr + '%';
+      if(nopstPct > 8) segNoPst.innerHTML = `<span class="cc-seg-label">${nopstPctStr}%</span>`;
+    }
+  }));
+
+  setEl('ccOpsNum',  total.toLocaleString('id-ID'));
+  setEl('ccPstNum',  pst.toLocaleString('id-ID'));
+  setEl('ccPstSub',  `${pstPctStr}% dari beroperasi`);
+  setEl('ccNoPstNum',nopst.toLocaleString('id-ID'));
+  setEl('ccNoPstSub',`${nopstPctStr}% perlu didaftarkan`);
+}
+
+/* ══ LOAD ══ */
+async function loadAndRender(){
+  setStatus('loading','Memuat…');updateTimestamp();
+  try{
+    const raw = await fetchCSV();
+
+    const allOps   = raw.filter(d => isOps(d.statusOps));
+    const opsPst   = allOps.filter(d => isPeserta(d.statusPeserta));
+    const opsNoPst = allOps.filter(d => !isPeserta(d.statusPeserta));
+
+    opsPstData   = opsPst;
+    opsNoPstData = opsNoPst;
+
+    console.log(`[SPPG] Total: ${raw.length} | Ops: ${allOps.length} | Peserta: ${opsPst.length} | Belum: ${opsNoPst.length}`);
+
+    setEl('kpiTotal',    raw.length.toLocaleString('id-ID'));
+    setEl('kpiOps',      allOps.length.toLocaleString('id-ID'));
+    setEl('kpiOpsPst',   opsPst.length.toLocaleString('id-ID'));
+    setEl('kpiOpsNoPst', opsNoPst.length.toLocaleString('id-ID'));
+
+    setEl('heroStatTotal',   raw.length);
+    setEl('heroStatOps',     allOps.length);
+    setEl('heroStatOpsPst',  opsPst.length);
+    setEl('heroStatOpsNoPst',opsNoPst.length);
+
+    const chip = document.getElementById('heroChipTotal');
+    if(chip) chip.innerHTML = `<i class="fas fa-kitchen-set"></i> ${allOps.length} dapur beroperasi`;
+
+    renderCharts(opsPst.length, opsNoPst.length);
+    renderList('green');
+    renderList('red');
+
+    setStatus('online', `${raw.length} SPPG · ${opsPst.length} peserta · ${opsNoPst.length} belum`);
+  }catch(e){
+    console.error('[SPPG] Error:', e);
+    setStatus('error','Gagal memuat');
+    toast('Gagal mengambil data: ' + e.message);
+  }finally{
+    hideRefreshOverlay();
+    isFirstLoad = false;
+  }
+}
+
+/* ══ RENDER LIST ══ */
+function renderList(side){
+  const isGreen = side === 'green';
+  const searchEl = document.getElementById(isGreen ? 'searchGreen' : 'searchRed');
+  const sortEl   = document.getElementById(isGreen ? 'sortGreen'   : 'sortRed');
+  const listEl   = document.getElementById(isGreen ? 'listGreen'   : 'listRed');
+  const badgeEl  = document.getElementById(isGreen ? 'badgeGreen'  : 'badgeRed');
+  const countEl  = document.getElementById(isGreen ? 'countGreen'  : 'countRed');
+  const data     = isGreen ? opsPstData : opsNoPstData;
+
+  const q = (searchEl.value||'').trim().toLowerCase();
+  const [field, dir] = (sortEl.value||'namaSppg|asc').split('|');
+
+  let filtered = q
+    ? data.filter(d =>
+        d.namaSppg.toLowerCase().includes(q)  ||
+        d.yayasan.toLowerCase().includes(q)   ||
+        d.kecamatan.toLowerCase().includes(q) ||
+        d.kelurahan.toLowerCase().includes(q)
+      )
+    : [...data];
+
+  filtered.sort((a,b)=>{
+    const va=(a[field]||'').toLowerCase(), vb=(b[field]||'').toLowerCase();
+    return dir==='asc'?(va<vb?-1:va>vb?1:0):(va>vb?-1:va<vb?1:0);
+  });
+
+  badgeEl.textContent = q ? `${filtered.length} hasil` : `${data.length} dapur`;
+  countEl.textContent = filtered.length.toLocaleString('id-ID');
+
+  if(!filtered.length){
+    listEl.innerHTML=`<div class="list-empty"><i class="fas fa-folder-open"></i><p>${q?'Tidak ada hasil pencarian':'Data belum tersedia'}</p></div>`;
+    return;
+  }
+
+  listEl.innerHTML='';
+  filtered.forEach((d,i)=>{
+    const item = document.createElement('a');
+    item.className = 'dapur-item' + (isGreen ? '' : ' red-item');
+    item.href = `detail.html?yayasan=${enc(d.yayasan)}`;
+    item.innerHTML=`
+      <div class="item-num">${i+1}</div>
+      <div class="item-body">
+        <div class="item-name" title="${esc(d.namaSppg)}">${esc(d.namaSppg)}</div>
+        <div class="item-meta">${esc(d.yayasan)} · ${esc(d.kecamatan)}</div>
+      </div>
+      <div class="item-tags">
+        <span class="itag itag-ops">✅ Beroperasi</span>
+        ${isGreen
+          ? `<span class="itag itag-pst">🛡️ Peserta BPJS</span>`
+          : `<span class="itag itag-nopst">⚠️ Belum Peserta</span>`
+        }
+      </div>
+      <i class="fas fa-chevron-right item-arrow"></i>
+    `;
+    listEl.appendChild(item);
+  });
+}
+
+/* ══ BG SYSTEM ══ */
+const BG_PRESETS=[
+  {id:'none',label:'Default',bg:null},
+  {id:'forest',label:'Forest',gradient:'linear-gradient(145deg,#1b4332 0%,#2d6a4f 40%,#52b788 100%)'},
+  {id:'sunset',label:'Sunset',gradient:'linear-gradient(160deg,#ff6b35 0%,#f7931e 35%,#ffd700 100%)'},
+  {id:'ocean',label:'Ocean',gradient:'linear-gradient(145deg,#023e8a 0%,#0077b6 40%,#48cae4 100%)'},
+  {id:'blossom',label:'Blossom',gradient:'linear-gradient(145deg,#c9184a 0%,#ff4d6d 40%,#ffb3c1 100%)'},
+  {id:'earth',label:'Earth',gradient:'linear-gradient(145deg,#5c4033 0%,#8b6456 40%,#c9a87c 100%)'},
+  {id:'mint',label:'Mint',gradient:'linear-gradient(145deg,#004b23 0%,#006400 40%,#55a630 100%)'},
+  {id:'dusk',label:'Dusk',gradient:'linear-gradient(145deg,#2d2d44 0%,#5c5470 40%,#b8b8d1 100%)'},
+];
+let bgOpacity=0.55;
+function initBgPresets(){
+  const c=document.getElementById('bgPresets');c.innerHTML='';
+  BG_PRESETS.forEach(p=>{
+    const btn=document.createElement('button');
+    btn.className='bg-preset-btn'+(p.id==='none'?' none-btn active':'');
+    btn.dataset.bg=p.id;btn.title=p.label;
+    if(p.gradient)btn.style.background=p.gradient;else btn.textContent='🚫';
+    btn.addEventListener('click',()=>applyBg(p));c.appendChild(btn);
+  });
+}
+function applyBg(preset){
+  document.querySelectorAll('.bg-preset-btn').forEach(b=>b.classList.toggle('active',b.dataset.bg===preset.id));
+  const canvas=document.getElementById('bg-canvas'),opRow=document.getElementById('opacityRow'),opLabel=document.getElementById('opacityLabel');
+  if(preset.id==='none'){canvas.style.background='';document.body.classList.remove('has-bg-image');opRow.style.display='none';opLabel.style.display='none';saveBgState(null,bgOpacity);}
+  else if(preset.gradient){canvas.style.background=preset.gradient;document.body.classList.add('has-bg-image');opRow.style.display='flex';opLabel.style.display='block';updateOverlayOpacity(bgOpacity*100);saveBgState({type:'gradient',value:preset.gradient,id:preset.id},bgOpacity);}
+}
+function applyCustomBg(dataUrl){
+  const canvas=document.getElementById('bg-canvas');
+  canvas.style.background=`url('${dataUrl}') center/cover no-repeat`;
+  document.body.classList.add('has-bg-image');
+  document.getElementById('opacityRow').style.display='flex';
+  document.getElementById('opacityLabel').style.display='block';
+  updateOverlayOpacity(bgOpacity*100);
+  document.querySelectorAll('.bg-preset-btn').forEach(b=>b.classList.remove('active'));
+  saveBgState({type:'custom',value:dataUrl},bgOpacity);
+}
+function updateOverlayOpacity(val){
+  bgOpacity=val/100;
+  document.getElementById('bg-overlay').style.opacity=bgOpacity;
+  document.getElementById('bgOpacityVal').textContent=val+'%';
+  document.getElementById('bgOpacitySlider').value=val;
+}
+function saveBgState(bgData,opacity){try{localStorage.setItem('sppg_bg',JSON.stringify({bg:bgData,opacity:opacity*100}));}catch(e){}}
+function restoreBgState(){
+  try{
+    const s=localStorage.getItem('sppg_bg');if(!s)return;
+    const{bg,opacity}=JSON.parse(s);if(!bg)return;
+    bgOpacity=opacity/100||0.55;document.getElementById('bgOpacitySlider').value=opacity||55;updateOverlayOpacity(opacity||55);
+    if(bg.type==='gradient'){const preset=BG_PRESETS.find(p=>p.id===bg.id);if(preset)applyBg(preset);}
+    else if(bg.type==='custom')applyCustomBg(bg.value);
+  }catch(e){}
+}
+
+/* ══ BOOT ══ */
+document.addEventListener('DOMContentLoaded',()=>{
+  initBgPresets();restoreBgState();
+  document.getElementById('btnRefresh').addEventListener('click',()=>{showRefreshOverlay();loadAndRender();});
+  document.getElementById('bgFab').addEventListener('click',()=>document.getElementById('bgPanel').classList.toggle('open'));
+  document.getElementById('bgPanelClose').addEventListener('click',()=>document.getElementById('bgPanel').classList.remove('open'));
+  document.getElementById('bgFileInput').addEventListener('change',function(){
+    const file=this.files[0];if(!file)return;
+    if(file.size>8*1024*1024){toast('File terlalu besar (maks 8MB)');return;}
+    const reader=new FileReader();reader.onload=e=>applyCustomBg(e.target.result);reader.readAsDataURL(file);this.value='';
+  });
+  document.getElementById('bgOpacitySlider').addEventListener('input',function(){
+    updateOverlayOpacity(parseInt(this.value));
+    try{const s=localStorage.getItem('sppg_bg');if(s){const d=JSON.parse(s);saveBgState(d.bg,parseInt(this.value)/100);}}catch(e){}
+  });
+  document.addEventListener('click',e=>{
+    const panel=document.getElementById('bgPanel'),fab=document.getElementById('bgFab');
+    if(!panel.contains(e.target)&&!fab.contains(e.target))panel.classList.remove('open');
+  });
+  document.getElementById('searchGreen').addEventListener('input',()=>renderList('green'));
+  document.getElementById('searchRed').addEventListener('input',()=>renderList('red'));
+  document.getElementById('sortGreen').addEventListener('change',()=>renderList('green'));
+  document.getElementById('sortRed').addEventListener('change',()=>renderList('red'));
+  loadAndRender();
+  setInterval(loadAndRender, 5*60*1000);
+});
+</script>
+</body>
+</html>
